@@ -8,6 +8,9 @@
 
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import QDir
+from PyQt4.QtGui import * 
+import sys
+
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -21,7 +24,24 @@ try:
 except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
-
+#window to make the theming dynamic
+#th = "w.jpg"
+#class theme(QWidget):
+#    def __init__(self):
+ #       palette	= QPalette()
+  # 	palette.setBrush(QPalette.Background,QBrush(QPixmap(th)))
+#	Window.setPalette(palette)
+#
+ #       QWidget.__init__(self)
+  #      w1 = QtGui.QPushButton("w1",self)
+   #     w1.move(170,220)
+    #    w1.resize(35,65)
+     #   w1.clicked.connect(self.w1)
+   # def w1(self):
+    #    th="w1.jpg"    
+     
+	
+	
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
@@ -47,7 +67,68 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
+        
+        self.pushButton = QtGui.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(00, 10, 18,27))
+        self.pushButton.setObjectName(_fromUtf8("thm"))
+        self.pushButton.clicked.connect( self.th1 )
+        
+        self.pushButton = QtGui.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(20, 10, 18, 27))
+        self.pushButton.setObjectName(_fromUtf8("thm2"))
+        self.pushButton.clicked.connect( self.th2 )
+        
+        self.pushButton = QtGui.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(40, 10, 18, 27))
+        self.pushButton.setObjectName(_fromUtf8("thm2"))
+        self.pushButton.clicked.connect( self.th3 )
+        
+        self.pushButton = QtGui.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(60, 10, 18, 27))
+        self.pushButton.setObjectName(_fromUtf8("thm2"))
+        self.pushButton.clicked.connect( self.th4 )
+        
+        self.pushButton = QtGui.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(80, 10, 18, 27))
+        self.pushButton.setObjectName(_fromUtf8("thm2"))
+        self.pushButton.clicked.connect( self.th5 )
+        self.w = None
+        palette	= QPalette()
+   	palette.setBrush(QPalette.Background,QBrush(QPixmap("w1.jpg")))
+	Window.setPalette(palette)
 
+
+    def th1(self):
+       
+        palette	= QPalette()
+   	palette.setBrush(QPalette.Background,QBrush(QPixmap("w.jpg")))
+	Window.setPalette(palette)
+        
+    def th2(self):
+        #self.w = theme()
+        #self.w.show()
+        palette	= QPalette()
+   	palette.setBrush(QPalette.Background,QBrush(QPixmap("w1.jpg")))
+	Window.setPalette(palette)
+		
+
+    def th3(self):
+       
+        palette	= QPalette()
+   	palette.setBrush(QPalette.Background,QBrush(QPixmap("w2.jpg")))
+	Window.setPalette(palette)
+    def th4(self):
+       
+        palette	= QPalette()
+   	palette.setBrush(QPalette.Background,QBrush(QPixmap("w3.jpg")))
+	Window.setPalette(palette)
+    
+    def th5(self):
+       
+        palette	= QPalette()
+   	palette.setBrush(QPalette.Background,QBrush(QPixmap("w4.jpg")))
+	Window.setPalette(palette)
     def btn_click(self):
         file_dialog = QtGui.QFileDialog()
         folder = file_dialog.getExistingDirectory(None, "Select Folder")
@@ -71,12 +152,15 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
         self.pushButton.setText(_translate("MainWindow", "file explorer", None))
+    
 
 
 if __name__ == '__main__':
 	import sys
 	app = QtGui.QApplication(sys.argv)
 	Window = QtGui.QMainWindow()
+	#applies the theme
+	
 	ui = Ui_MainWindow()
 	ui.setupUi(Window)
 	Window.show()
