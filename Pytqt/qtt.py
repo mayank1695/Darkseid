@@ -75,7 +75,7 @@ class MenuBar(QtGui.QMainWindow):
 	tb.addAction(save)
 
 
-	edit = QtGui.QAction(QtGui.QIcon("edit.png"),"save",self)
+	edit = QtGui.QAction(QtGui.QIcon("edit.png"),"edit",self)
 	edit.triggered.connect(self.editor)
 	tb.addAction(edit)
 
