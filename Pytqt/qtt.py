@@ -5,13 +5,12 @@ from PyQt4.QtCore import Qt
 class MenuBar(QtGui.QMainWindow):
    def __init__(self):
         super(MenuBar, self).__init__()
-        
         self.initUI()
                     
 
    def initUI(self):
 
-      self.setGeometry(50,50,500,300)
+      self.setGeometry(150,150,650,350)
       self.setWindowTitle("PYQT tut")
       self.setWindowIcon(QtGui.QIcon('pylogo.png'))
 
@@ -64,7 +63,7 @@ class MenuBar(QtGui.QMainWindow):
       edit_menu.addAction(openEditor)
 
       self.setWindowTitle("PYQT tut")
-      self.show()
+      # self.show()
 
    def file_open(self):
       name = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
@@ -87,12 +86,52 @@ class MenuBar(QtGui.QMainWindow):
       file.write(text)
       file.close()
 
+class QCustomTabWidget (QtGui.QTabWidget):
+    def __init__ (self, parent = None):
+        super(QCustomTabWidget, self).__init__(parent)
+        # ex=MenuBar()
+        self.initUI()
+
+    def initUI(self):
+        self.setGeometry( 0, 0, 650, 350)
+        self.tabwidget = QtGui.QTabWidget(self)
+        self.tabwidget.setTabsClosable(True)
+        self.tabwidget.tabCloseRequested.connect(self.closeTab)
+        vbox = QtGui.QVBoxLayout()
+        vbox.addWidget(self.tabwidget)
+        self.setLayout(vbox)
+        self.pages = []
+        self.add_page()
+        self.tabButton = QtGui.QToolButton(self)
+        self.tabButton.setText('+')
+        font = self.tabButton.font()
+        font.setBold(True)
+        self.tabButton.setFont(font)
+        self.tabwidget.setCornerWidget(self.tabButton)
+        self.tabButton.clicked.connect(self.add_page)
+    
+    def closeTab (self, currentIndex):
+        currentQWidget = self.tabwidget.widget(currentIndex)
+        currentQWidget.deleteLater()
+        self.removeTab(currentIndex)
+
+    def create_page(self):
+        page = QtGui.QWidget()
+        return page
+
+    def add_page(self):
+        self.pages.append(self.create_page())
+        self.tabwidget.addTab(self.pages[-1] , 'Page %s' % len(self.pages) )
+        self.tabwidget.setCurrentIndex( len(self.pages)-1 )
 
    
 def main():
     
    app = QtGui.QApplication(sys.argv)
    ex = MenuBar()
+   myQCustomTabWidget = QCustomTabWidget(ex)
+   ex.show()
+   
    sys.exit(app.exec_())
 
 
