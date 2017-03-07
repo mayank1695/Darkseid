@@ -46,7 +46,7 @@ class MenuBar(QtGui.QMainWindow):
 	file_menu = mainmenu.addMenu('File')
 	edit_menu = mainmenu.addMenu('Edit')
 	view_menu = mainmenu.addMenu('View')
-
+        theme_menu = mainmenu.addMenu('Theme')
 
 	
 
@@ -68,16 +68,18 @@ class MenuBar(QtGui.QMainWindow):
 	open = QtGui.QAction(QtGui.QIcon("open.jpg"),"open",self)
 	open.triggered.connect(self.file_open)
 	tb.addAction(open)
-
-
-	save = QtGui.QAction(QtGui.QIcon("save.jpg"),"save",self)
-	save.triggered.connect(self.file_save)
-	tb.addAction(save)
-
-
+        
+         
+        
 	edit = QtGui.QAction(QtGui.QIcon("edit.png"),"edit",self)
 	edit.triggered.connect(self.editor)
 	tb.addAction(edit)
+
+
+         
+	save = QtGui.QAction(QtGui.QIcon("save.jpg"),"save",self)
+	save.triggered.connect(self.file_save)
+	tb.addAction(save)
 
 
 	tb.actionTriggered[QtGui.QAction].connect(self.toolbtnpressed)
@@ -108,6 +110,19 @@ class MenuBar(QtGui.QMainWindow):
 	text = self.textEdit.toPlainText()
 	file.write(text)
 	file.close()
+
+
+   def closeEvent(self, event):
+
+    quit_msg = "Are you sure you want to exit the program?"
+    reply = QtGui.QMessageBox.question(self, 'Message', 
+                     quit_msg, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+
+    if reply == QtGui.QMessageBox.Yes:
+        event.accept()
+    else:
+        event.ignore()
+
 
 
    
