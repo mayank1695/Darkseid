@@ -2,9 +2,9 @@ import sys
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
 
-class MenuBar(QtGui.QMainWindow):
+class Window(QtGui.QMainWindow):
    def __init__(self):
-	  super(MenuBar, self).__init__()
+	  super(Window, self).__init__()
 	  self.initUI()						   
 
    def initUI(self):
@@ -18,7 +18,7 @@ class MenuBar(QtGui.QMainWindow):
 	exitAction = QtGui.QAction(QtGui.QIcon('exit.png'), '&Exit', self)        
 	exitAction.setShortcut('Ctrl+Q')
 	exitAction.setStatusTip('Exit application')
-	exitAction.triggered.connect(QtGui.qApp.quit)
+	exitAction.triggered.connect(self.closeEvent)
    
 	openEditor = QtGui.QAction('&Editor',self)
 	openEditor.setShortcut('Ctrl+E')
@@ -46,7 +46,7 @@ class MenuBar(QtGui.QMainWindow):
 	file_menu = mainmenu.addMenu('File')
 	edit_menu = mainmenu.addMenu('Edit')
 	view_menu = mainmenu.addMenu('View')
-
+        theme_menu = mainmenu.addMenu('Theme')
 
 	
 
@@ -68,18 +68,22 @@ class MenuBar(QtGui.QMainWindow):
 	open = QtGui.QAction(QtGui.QIcon("open.jpg"),"open",self)
 	open.triggered.connect(self.file_open)
 	tb.addAction(open)
-
-
-      self.setWindowTitle("PYQT tut")
-      # self.show()
-	save = QtGui.QAction(QtGui.QIcon("save.jpg"),"save",self)
-	save.triggered.connect(self.file_save)
-	tb.addAction(save)
-
-
+        
+         
+        
 	edit = QtGui.QAction(QtGui.QIcon("edit.png"),"edit",self)
 	edit.triggered.connect(self.editor)
 	tb.addAction(edit)
+
+
+
+
+        self.setWindowTitle("PYQT tut")
+        self.show()
+
+	save = QtGui.QAction(QtGui.QIcon("save.jpg"),"save",self)
+	save.triggered.connect(self.file_save)
+	tb.addAction(save)
 
 
 	tb.actionTriggered[QtGui.QAction].connect(self.toolbtnpressed)
@@ -112,14 +116,26 @@ class MenuBar(QtGui.QMainWindow):
 	file.write(text)
 	file.close()
 
+   def closeEvent(self, event):
+
+     quit_msg = "Are you sure you want to exit the program?"
+     reply = QtGui.QMessageBox.question(self, 'Message', 
+                     quit_msg, QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+
+     if reply == QtGui.QMessageBox.Yes:
+        event.accept()
+     else:
+        event.ignore()
+
 class QCustomTabWidget (QtGui.QTabWidget):
     def __init__ (self, parent = None):
         super(QCustomTabWidget, self).__init__(parent)
-        # ex=MenuBar()
+        # ex=Window()
         self.initUI()
 
     def initUI(self):
-        self.setGeometry( 0, 0, 650, 350)
+
+        self.setGeometry( 50, 50, 650, 350)
         self.tabwidget = QtGui.QTabWidget(self)
         self.tabwidget.setTabsClosable(True)
         self.tabwidget.tabCloseRequested.connect(self.closeTab)
@@ -149,13 +165,17 @@ class QCustomTabWidget (QtGui.QTabWidget):
         self.pages.append(self.create_page())
         self.tabwidget.addTab(self.pages[-1] , 'Page %s' % len(self.pages) )
         self.tabwidget.setCurrentIndex( len(self.pages)-1 )
+   
+        self.show()
+   
+
 
    
 def main():
     
    app = QtGui.QApplication(sys.argv)
-   ex = MenuBar()
-   myQCustomTabWidget = QCustomTabWidget(ex)
+   ex = Window()
+   myCustomTabWidget =QCustomTabWidget(ex)
    ex.show()
 
    sys.exit(app.exec_())
