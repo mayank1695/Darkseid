@@ -135,7 +135,7 @@ class QCustomTabWidget (QtGui.QTabWidget):
 
     def initUI(self):
 
-        self.setGeometry( 0, 0, 650, 350)
+        self.setGeometry( 50, 50, 650, 350)
         self.tabwidget = QtGui.QTabWidget(self)
         self.tabwidget.setTabsClosable(True)
         self.tabwidget.tabCloseRequested.connect(self.closeTab)
@@ -165,7 +165,8 @@ class QCustomTabWidget (QtGui.QTabWidget):
         self.pages.append(self.create_page())
         self.tabwidget.addTab(self.pages[-1] , 'Page %s' % len(self.pages) )
         self.tabwidget.setCurrentIndex( len(self.pages)-1 )
-
+   
+        self.show()
    
 
 
